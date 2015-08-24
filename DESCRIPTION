@@ -1,0 +1,14 @@
+Package: UCSCTrackTools
+Version: 0.99.0
+Title: Tools to convert BAM files to BigWig and to create session track line
+Author: Chao-Jen Wong
+Maintainer: Chao-Jen Wong <cwon2@fhcrc.org>
+Depends:  R (>= 3.1.0)
+Imports: RColorBrewer, Rsamtools, BiocParallel, rtracklayer
+Description: Tools to convert BAM files to bigWig files using coverage on genome positions.
+  The session track line append the track lines for each bigWig file. Note that the bigWig
+  files have to saved in /home/tapscott/ucsc/bigWig directory. The url portal is
+  "http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig"
+License: Artistic-2.0
+LazyLoad: yes
+
