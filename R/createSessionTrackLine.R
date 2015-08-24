@@ -2,16 +2,20 @@
 #' This script create session track lines
 #' parameters: file names with address
 
-createSessionTrackLine <- function(projectName, sessionFile=NULL, type="bigWig",
+createSessionTrackLine <- function(projectName, sessionFileName=NULL, type="bigWig",
                                     sample.group, group.col=NULL, brewer="Set2") {
-    if (is.null(sessionFile))
-        sessionFile <- file.path(getwd(), "sessionTrackLines.txt")
+    if (is.null(sessionFileName))
+        sessionFileName <- file.path(getwd(), "sessionTrackLines.txt")
+
+    if (!file.exists(dirname(sessionFileName))) stop("Directory does not exist")
 
     url <- "http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig"
-    flist.bw <- list.files(file.path("/home/tapscott/ucsc/bigWig/", projectName),
+    flist.bw <- list.files(file.path("/home/tapscott/ucsc/bigWig", projectName),
                            full.name=TRUE)
     url.bw <- file.path(url, projectName, basename(flist.bw))
 
+    if (length(flist.bw) == 0) stop("BW files do not exist.")
+    
     #require(dichromat)
     #require(biovizBase)
     if (!is.factor(sample.group)) sample.group <- factor(sample.group)

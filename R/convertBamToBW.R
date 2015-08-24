@@ -4,9 +4,6 @@
 #'
 
 convertBamToBigWig <- function(bamFiles, NH.weight=FALSE, output.dir=NULL) {
-    require(Rsamtools)
-    require(BiocParallel)
-    require(rtracklayer)
 
     if (is.null(output.dir)) 
         output.dir <- getwd()
@@ -26,7 +23,7 @@ convertBamToBigWig <- function(bamFiles, NH.weight=FALSE, output.dir=NULL) {
         weight <- 1.0/mcols(reads)$NH
         cov <- GenomicAlignments::coverage(reads)
 
-        print(message("Getting coverage frome ", filename))
+        print(message("Computing coverage for ", filename))
         
         if (NH.weight)  {
             cov.nh <- coverage(reads, weight=weight)
