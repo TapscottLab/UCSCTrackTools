@@ -1,0 +1,12 @@
+importFrom(GenomicAlignments, readGAlignments)
+
+importFrom(rtracklayer, export)
+
+importFrom(Rsamtools, ScanBamParam)
+
+importFrom(RColorBrewer, brewer.pal)
+
+importFrom(biovizBase, getBioColor)
+
+export("convertBamToBW",
+       "createSessionTrackLine")
