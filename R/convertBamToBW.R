@@ -5,12 +5,13 @@
 
 convertBamToBigWig <- function(bamFiles, NH.weight=FALSE, output.dir=NULL) {
 
+    #NH.weight <- FALSE # not supporting NH weighted coverage
     if (is.null(output.dir)) 
         output.dir <- getwd()
 
     ## check if the directory exists
     if (!file.exists(output.dir)) stop("Output directory does not exists.")
-    if (!file.exists(bamFiles)) stop("Bam files do not exists.")
+    if (!all(file.exists(bamFiles))) stop("Bam files do not exists.")
 
     ## check the bam file is a bam file
     
@@ -18,14 +19,13 @@ convertBamToBigWig <- function(bamFiles, NH.weight=FALSE, output.dir=NULL) {
     param <- Rsamtools::ScanBamParam(tag="NH")
 
     res <- bplapply(bamFiles, function(filename) {
-        reads <- GenomicAlignments::readGAlignments(filename, param=param)
+            print(message("Computing coverage for ", filename))
+            reads <- GenomicAlignments::readGAlignments(filename, param=param)
+            seqlevelsStyle(reads) <- "UCSC"
+            cov <- GenomicAlignments::coverage(reads)
 
-        weight <- 1.0/mcols(reads)$NH
-        cov <- GenomicAlignments::coverage(reads)
-
-        print(message("Computing coverage for ", filename))
-        
-        if (NH.weight)  {
+         if (NH.weight)  {
+            weight <- 1.0/mcols(reads)$NH
             cov.nh <- coverage(reads, weight=weight)
             list(cov=cov, cov.nh=cov.nh, weight=weight, total=length(reads))
         }
@@ -45,7 +45,7 @@ convertBamToBigWig <- function(bamFiles, NH.weight=FALSE, output.dir=NULL) {
     bplapply(names(cov), function(x) {
         output <- file.path(output.dir, paste0(x,".bw"))
         print(message("Exporting BigWig file: ", output))
-        rtracklayer::export(cov[[x]], output)
+        rtracklayer::export(cov[[x]], con=output, format="BigWig")
     })
     
     if (NH.weight) {
