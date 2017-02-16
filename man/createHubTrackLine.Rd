@@ -12,36 +12,49 @@ Create a session track line txt file for bigWig files
 }
 \usage{
     createSessionTrackLine.BW(projectName,
-                              hubName=NULL,
-                              HubFileName = NULL,
+                              trackName=NULL,
+                              TrackFileName = NULL,
                               col = c(102, 194, 165),
-                              pattern="\\.bw$")
+                              pattern="\\.bw$",
+			      shortLabel=NULL,
+			      longLable=NULL)
 			      
-    createHubTrackLine.BW(projectName, hubName=NULL,
-                          HubFileName=NULL,
-                          col = c(102, 194, 165), 
-                          pattern="\\.bw$")
+    createHubTrackLine.BW(projectName,
+	                  trackName=NULL,
+                          TrackFileName = NULL,
+                          col = c(102, 194, 165),
+                          pattern="\\.bw$",
+			  shortLabel=NULL,
+			  longLable=NULL)
 			  
-    createHubTrackLine.junc.bed(projectName, hubName=NULL,
-                                HubFileName=NULL,
-                                pattern="\\.bb$")
+    createHubTrackLine.junc.bed(projectName,
+                                trackName=NULL,
+                                TrackFileName = NULL,
+                                col = c(102, 194, 165),
+                                pattern="\\.bw$",
+			        shortLabel=NULL,
+			        longLable=NULL)
 				
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{projectName}{
-  The sub-directory in /home/tapscott/ucsc/bigWig where the bigWig files are stored.
+  The sub-directory in /home/tapscott/ucsc/bigWig where the bigWig files are stored or /home/tapscott/ucsc/junctions where the bigBed files are stored.
 }
-  \item{hubName}{Parent track name appears on the Hub.}
+  \item{trackName}{A character indicating the parent track attributes appears on the Hub.}
 
-  \item{HubFileName}{
+  \item{TrackFileName}{
   A character string indicating the name of the hub track file. If NULL, a txt file
   named "$projectName__HubTrackLines.txt" is created and saved in the current directory.
 }
   
   \item{col}{Color default to RGB:c(102, 194, 165) }
 
-  \item{pattern}{The pattern of the bigWig file extension.}
+  \item{pattern}{A character indicating the pattern of the bigWig file extension.}
+
+  \item{shortLabel}{A character indicating the shortLabel attribute for the track lines.}
+
+  \item{longLabel}{A character indicating the longLabel attribute for the track lines.}
   
 }
 \details{
@@ -62,7 +75,8 @@ library(RColorBrewer)
 col <- brewer.pal(3, "Set2")
 col2rgb(col)
 UCSCTrackTools::createHubTrackLine.BW(projectName="hg19_Dux4_RD_inducible",
-                                      hubName="Dux4_RD_inducible")
+                                      trackName="Dux4_RD_inducible",
+				      longLabel="Dux4_RD_inducible RNA-Seq Coverage")
 }
 
 }

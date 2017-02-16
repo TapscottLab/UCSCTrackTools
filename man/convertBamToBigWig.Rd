@@ -1,17 +1,18 @@
 \name{convertBamToBigWig}
 \alias{convertBamToBigWig}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
 Convert Bam files to BigWig Files using coverage on genome positoins.
 }
 
 \usage{
-convertBamToBigWig(bamFiles, NH.weight = FALSE, output.dir = NULL)
+convertBamToBigWig(bamFiles, NH.weight = FALSE, output.dir = NULL,
+                   cores=1L, singleEnded=TRUE)
 }
 
 \arguments{
   \item{bamFiles}{
-  Aharactor strings the bam files.
+   Vector of charactor strings of the bam files.
 }
   \item{NH.weight}{
   Logical indicating whether to weight the coverage by the NH tab.
@@ -19,6 +20,8 @@ convertBamToBigWig(bamFiles, NH.weight = FALSE, output.dir = NULL)
   \item{output.dir}{
   Character string indicating the location of the output bigWig files.
 }
+  \item{cores}{The number of precessors to use. }
+  \item{singleEnded}{Logical indicated whether the reads are single ended.} 
 }
 
 
@@ -27,7 +30,7 @@ List of coverage.
 }
 
 \author{
-Chao-Jen Wong <cwon2@fhcrc.org>
+Chao-Jen Wong <cwon2@fredhutch.org>
 }
 
 \examples{
