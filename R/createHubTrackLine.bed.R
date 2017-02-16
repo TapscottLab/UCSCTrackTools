@@ -1,8 +1,11 @@
 createHubTrackLine.junc.bed <- function(projectName, hubName=NULL,
-                                  HubFileName=NULL,
+                                        HubFileName=NULL,
                                   pattern="\\.bb$") {
     type <- "bigBed 12"
     if (is.null(hubName)) hubName=projectName
+    
+    ## take space out of hubName
+    hubName <- sub(" ", "_", hubName, fixed=TRUE)
     
     if (!file.exists(file.path("/home/tapscott/ucsc/junctions", projectName)))
         stop(file.path("/home/tapscott/ucsc/junctions", projectName), " does not exist.")
@@ -35,23 +38,24 @@ createHubTrackLine.junc.bed <- function(projectName, hubName=NULL,
         cat("\n")    
           
         for(i in 1:length(url.bed)) {
-            trackname <- paste0(basename(url.bed[i], "_junc"))
+            trackname <- basename(url.bed[i])
             cat("track", trackname, "\n")
             cat("type", type ,"\n")
             cat("shortLabel", trackname, "\n");
             cat("longLabel", trackname, "junc", "\n")
             cat("parent", name, "\n")
             cat("bigDataUrl", url.bed[i], "\n")
-           cat("\n")
+            cat("\n")
         }   
     }
 
     tFile <- HubFileName
+    message(tFile)
     file.create(tFile)
     sink(tFile)
     if (is.null(hubName)) hubName=projectName
     
-    HubTracks(name=hubName, url.bed, type)
+    HubTracks(name=hubName, url.bed=url.bed, type=type)
     sink()
  
 }
