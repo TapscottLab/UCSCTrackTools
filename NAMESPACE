@@ -1,12 +1,20 @@
 importFrom(GenomicAlignments, readGAlignments)
 
-importFrom(rtracklayer, export)
+importFrom(GenomeInfoDb, "seqlevels", "seqlevelsStyle<-")
 
+importFrom(rtracklayer, "export")
+importFrom(rtracklayer, "GRangesForUCSCGenome")
 importFrom(Rsamtools, ScanBamParam)
 
 importFrom(RColorBrewer, brewer.pal)
 
 importFrom(biovizBase, getBioColor)
 
-export("convertBamToBW",
-       "createSessionTrackLine")
+importFrom(BiocParallel, bplapply)
+
+export("convertBamToBigWig",
+       "createSessionTrackLine.BW",
+       "createHubTrackLine.junc.bed",
+       "makeJunctionBed",
+       "createHubTrackLine.BW",
+       "makeCoverageTracksWrapper")
