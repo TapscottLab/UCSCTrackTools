@@ -18,15 +18,17 @@ makeCoverageTracksWrapper <- function(bamFiles, bwDir, singleEnded=TRUE,
     if (!file.exists(bwDir))
         stop(bwDir, " does  not exist")
 
-    #' (1) get coverage from bamFiles and convert to bigWig files
+    #' (1) get coverage from bamFiles and convert to bigWig files and save to the
+    #' designated location.
     convertBamToBigWig(bamFiles, NH.weight=NH.weight, output.dir=bwDir,
                        cores=cores, singleEnded=singleEnded)
     curDir <- getwd()
     setwd(bwDir)
-    projectName <- basename(bwDir)
-    ucscDir <- dirname(bwDir)
+    #projectName <- basename(bwDir)
+    #ucscDir <- dirname(bwDir)
+
     #' (2) create hub track lines
-    createHubTrackLine.BW(bwDir=ucscDir, projectName=projectName,
+    createHubTrackLine.BW(bwDir=bwDir, #projectName=projectName,
                           trackName = trackName, TrackFileName = TrackFileName,
                           col=col, pattern=pattern, shortLabel=shortLabel, longLabel=longLabel)
     setwd(curDir)

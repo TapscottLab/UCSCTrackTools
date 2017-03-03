@@ -1,21 +1,23 @@
-createHubTrackLine.junc.bed <- function(projectName, hubName=NULL,
+createHubTrackLine.junc.bed <- function(bbDir,
+                                        trackName,
                                         HubFileName=NULL,
-                                  pattern="\\.bb$") {
+                                        pattern="\\.bb$") {
+
     type <- "bigBed 12"
-    if (is.null(hubName)) hubName=projectName
+
     
     ## take space out of hubName
-    hubName <- sub(" ", "_", hubName, fixed=TRUE)
-    
-    if (!file.exists(file.path("/home/tapscott/ucsc/junctions", projectName)))
-        stop(file.path("/home/tapscott/ucsc/junctions", projectName), " does not exist.")
+    #hubName <- sub(" ", "_", hubName, fixed=TRUE)
+    trackName <- gsub("[[:space:]]", "-", trackName)
+    projectName <- basename(bbDir)
+    #' sanity track
+    if (!file.exists(bbDir)) stop(bbDir, " does not exist.")
     
     if (is.null(HubFileName))
-        HubFileName <- file.path(getwd(), paste0(projectName, "_HubTrackLines.txt"))
+        HubFileName <- paste0(projectName, "_HubTrackLines.txt")
 
     url <- "http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/junctions"
-    flist.bed <- list.files(file.path("/home/tapscott/ucsc/junctions",
-                           projectName),
+    flist.bed <- list.files(bbDir,
                            full.name=TRUE, pattern=pattern)
 
     url.bed <- file.path(url, projectName, basename(flist.bed))
@@ -42,20 +44,18 @@ createHubTrackLine.junc.bed <- function(projectName, hubName=NULL,
             cat("track", trackname, "\n")
             cat("type", type ,"\n")
             cat("shortLabel", trackname, "\n");
-            cat("longLabel", trackname, "junc", "\n")
+            cat("longLabel", trackname, "junction", "\n")
             cat("parent", name, "\n")
             cat("bigDataUrl", url.bed[i], "\n")
             cat("\n")
         }   
     }
 
-    tFile <- HubFileName
-    message(tFile)
+    tFile <- file.path(bbDir, HubFileName)
+    message("Export ", tFile)
     file.create(tFile)
     sink(tFile)
-    if (is.null(hubName)) hubName=projectName
-    
-    HubTracks(name=hubName, url.bed=url.bed, type=type)
+    HubTracks(name=trackName, url.bed=url.bed, type=type)
     sink()
  
 }

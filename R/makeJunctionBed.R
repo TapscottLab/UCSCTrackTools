@@ -82,7 +82,7 @@ makeJunctionBed <- function(bamFiles, cores=1, seqlev=NULL,
                                                blocks=blocks,
                                                itemRgb=itemRgb) 
             junctionsTrack
-            }, mc.cores=cores)
+            }, mc.cores=cores, mc.preschedule=FALSE)
 
         names(list_junctionsTrack) <- NULL
         keep <- which(elementNROWS(list_junctionsTrack) > 0)
@@ -92,13 +92,14 @@ makeJunctionBed <- function(bamFiles, cores=1, seqlev=NULL,
 
         junctionsTrack <- do.call(c, list_junctionsTrack)
         junctionsTrack <- keepSeqlevels(junctionsTrack, value=seqlev)
-        strand(junctionsTrack) <- "+"
+        ##strand(junctionsTrack) <- "+", testing
+        
         ## don't include trackLine because bigBed does not neet it
         if (verbose) message("Exporting ", file.path(outdir, bed_file))
         export(junctionsTrack,
                con=file.path(outdir, bed_file))
     }
-    invisible()
+    file.path(outdir, bed_file)
 }
 
 ## move to somewhere else

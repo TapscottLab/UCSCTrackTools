@@ -1,32 +1,35 @@
-createHubTrackLine.BW <- function(bwDir, projectName, trackName=NULL,
+createHubTrackLine.BW <- function(bwDir, trackName,
                                   TrackFileName=NULL,
                                   col = c(102, 194, 165), 
                                   pattern="\\.bw$",
                                   shortLabel=NULL,
                                   longLabel=NULL) {
+
     #' projectName: the sub-directory name used to store the bw files on the protal
     type <- "bigWig"
-    if (is.null(trackName))  trackName <- projectName
+    projectName <- basename(bwDir)
 
     ## sanitize trackName, shortLabel and longLabel
-    trackName <- gsub("[[:space:]]", "-", trackName)
+    if (!file.exists(bwDir)) stop(bwDir, " does not exists.")
+    trackName <- gsub("[[:space:]]", "-", trackName) ## does not allow empty space
     if (is.null(shortLabel)) shortLabel <- trackName
     if (is.null(longLabel)) longLabel <- trackName
     message("trackName: ", trackName)
     message("shortLabel: ", shortLabel)
     message("longLabel: ", longLabel)
 
-    if (!file.exists(file.path(bwDir, projectName)))
-        stop(file.path(bwDir, projectName), " does not exist.")
+    if (!file.exists(bwDir))
+        stop(bwDir, " does not exist.")
     
     if (is.null(TrackFileName))
         TrackFileName <- file.path(getwd(),
                                    paste0(projectName, "_HubTrackLines.txt"))
 
     url <- "http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig"
-    flist.bw <- list.files(file.path(bwDir, projectName),
+    flist.bw <- list.files(bwDir,
                            full.name=TRUE, pattern=pattern)
-
+    if (length(flist.bw) == 0) stop("There is no bigWig files in ", bwDir)
+    
     url.bw <- file.path(url, projectName, basename(flist.bw))
 
     if (length(flist.bw) == 0) stop("BigWig files do not exist.")
