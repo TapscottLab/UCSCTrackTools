@@ -2,46 +2,54 @@
 \alias{createHubTrackLine.BW}
 \alias{createHubTrackLine.junc.bed}
 \alias{createSessionTrackLine.BW}
+\alias{ createHubTrackLine}
+\alias{ createHubTrackLine.junc.bed}
 
 \title{
 Create UCSC Genome Browser Hub Track Line Attributes for bigWig Files
 }
 
 \description{
-Create a session track line txt file for bigWig files
+Create a hub or session track line txt file for bigWig files. The txt file is stored at current location.
 }
 \usage{
     createSessionTrackLine.BW(projectName,
                               trackName=NULL,
                               TrackFileName = NULL,
                               col = c(102, 194, 165),
-                              pattern="\\.bw$",
+                              pattern=".bw$",
 			      shortLabel=NULL,
-			      longLable=NULL)
+			      longLabel=NULL)
 			      
-    createHubTrackLine.BW(projectName,
-	                  trackName=NULL,
+    createHubTrackLine.BW(bwDir,
+	                  trackName,
                           TrackFileName = NULL,
                           col = c(102, 194, 165),
-                          pattern="\\.bw$",
+                          pattern=".bw$",
 			  shortLabel=NULL,
-			  longLable=NULL)
+			  longLabel=NULL)
 			  
     createHubTrackLine.junc.bed(projectName,
                                 trackName=NULL,
                                 TrackFileName = NULL,
                                 col = c(102, 194, 165),
-                                pattern="\\.bw$",
+                                pattern=".bd$",
 			        shortLabel=NULL,
-			        longLable=NULL)
+			        longLabel=NULL)
 				
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{projectName}{
-  The sub-directory in /home/tapscott/ucsc/bigWig where the bigWig files are stored or /home/tapscott/ucsc/junctions where the bigBed files are stored.
+  \item{bwDir}{The location of the bigWig files. At Tapscott Lab, the bigWig file (.bw)
+  should be placed at `/fh/fast/tapscott_s/pub/tapscott/ucsc/bigWig/your_project`.
+  The junction bigBed files (.bb) should be placed at
+  `/fh/fast/tapscott_s/pub/tapscott/ucsc/junctions/your_project`. }
+  \item{projectName}{ 
+  The sub-directory in /home/tapscott/ucsc/bigWig where the bigWig files are stored or
+  /home/tapscott/ucsc/junctions where the bigBed files are stored.
 }
-  \item{trackName}{A character indicating the parent track attributes appears on the Hub.}
+  \item{trackName}{A character indicating the parent track attributes appears on the Hub.
+  It should not have empty space.}
 
   \item{TrackFileName}{
   A character string indicating the name of the hub track file. If NULL, a txt file
@@ -58,7 +66,7 @@ Create a session track line txt file for bigWig files
   
 }
 \details{
-  The bigWig files must be placed in /home/tapscott/ucsc/bigWig.
+  The bigWig files must be placed at `/fh/fast/tapscott_s/pub/tapscott/ucsc/bigWig/your_project`.
 }
 
 
@@ -67,17 +75,16 @@ Chao-Jen Wong <cwon2@fhcrc.org>
 }
 
 \examples{
-
-\dontrun{
-setwd("/home/tapscott/ucsc/bigWig/hg19_Dux4_RD_inducible")
-getwd()
+## this ucscDir is where the Tapscott Lab stores the bigWig files for the Hub
+ucscDir <-  "/fh/fast/tapscott_s/pub/tapscott/ucsc/bigWig"
+## define the sub-directory
+bwDir <- file.path(ucscDir, "hg19_Dux4_RD_inducible")
 library(RColorBrewer)
-col <- brewer.pal(3, "Set2")
-col2rgb(col)
-UCSCTrackTools::createHubTrackLine.BW(projectName="hg19_Dux4_RD_inducible",
-                                      trackName="Dux4_RD_inducible",
-				      longLabel="Dux4_RD_inducible RNA-Seq Coverage")
-}
+col <- col2rgb(brewer.pal(3, "Set2"))
+createHubTrackLine.BW(bwDir=bwDir,
+                      trackName="Dux4_RD_inducible",
+     		      col=col[, 2],
+		      longLabel="Dux4_RD_inducible RNA-Seq Coverage")
 
 }
 

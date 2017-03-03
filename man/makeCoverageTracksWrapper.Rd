@@ -12,7 +12,8 @@ RNA-seq data and save them to a designated destination.
 makeCoverageTracksWrapper(bamFiles, bwDir, singleEnded = TRUE,
                     NH.weight = FALSE, cores = 1, trackName,
 		    TrackFileName = NULL, col = c(102, 194, 165),
-		    pattern = "\\.bw$", shortLabel = NULL, longLabel = NULL)
+		    pattern = "\\.bw$", shortLabel = NULL,
+		    longLabel = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,7 +21,8 @@ makeCoverageTracksWrapper(bamFiles, bwDir, singleEnded = TRUE,
     charactor strings of the bam files subject to be converted to coverage bigWig files.
 }
   \item{bwDir}{
-    a character string specifying the destination of the bigWig files to be saved. 
+    a character string specifying the destination of the bigWig files to be saved.
+    For Tapscott lab, it HAS to be "/fh/fast/tapscott_s/pub/tapscott/ucsc/bigWig/..."
 }
   \item{singleEnded}{
     logical indicating whether the reads are single ended.
@@ -45,10 +47,10 @@ makeCoverageTracksWrapper(bamFiles, bwDir, singleEnded = TRUE,
     a character string specifing the default to "\\.bw$". The patter
 }
   \item{shortLabel}{
-%%     ~~Describe \code{shortLabel} here~~
+    a character string indicating the short label attribute of the track.
 }
   \item{longLabel}{
-%%     ~~Describe \code{longLabel} here~~
+    a character string indicating the long label attribute of the track 
 }
 }
 
@@ -75,7 +77,9 @@ bamDir <- file.path(ngsDir, "tophat", "bam")
 bamFiles <- list.files(bamDir, pattern="\\.bam$", full.names=TRUE)
 
 bamFiles <- bamFiles[c(1, 5, 6)]
-bwDir <- file.path(pkgDir, "inst", "bw")
+
+ucscDir <- "/fh/fast/tapscott_s/pub/tapscott/ucsc/bigWig"
+bwDir <- file.path(ucscDir, "canFam3_CnMb_luciferase")
 trackName <- "CnMb_luciferase_RNAseq"
 
 library(RColorBrewer)
