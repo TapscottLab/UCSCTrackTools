@@ -5,12 +5,11 @@ getItemRgb <- function(score, pal="blue") {
     col <- RColorBrewer::brewer.pal(9, "Blues")[2:9]
     itemRgb <- col[i]      
 }
-
-makeJunctionBed <- function(bamFiles, cores=1, seqlev=NULL,
-                            min_junction_count=1,
+ 
+makeJunctionBed.PE <- function(bamFiles, cores=1, seqlev=NULL, min_anchor=1,
+                            min_junction_count=1, 
                             genome=NULL, verbose=TRUE,                   
-                            ignore.strand=TRUE, outdir=".") {
-    #' This script now only supports single-ended reads.
+                            ignore.strand=FALSE, outdir=".") {
     require(rtracklayer)
     require(Rsamtools)
     if (is.null(genome)) stop("Must assign genome, i.e., mm10")
@@ -20,21 +19,19 @@ makeJunctionBed <- function(bamFiles, cores=1, seqlev=NULL,
     si <- seqinfo(Rsamtools::BamFileList(bamFiles))
 
     sl <- seqlevels(si)
+    ## strand awareness
     st <- rep(c("+", "-"), rep(length(si), 2))
-
-    which <- GRanges(sl, IRanges(1, seqlengths(si)[sl]), strand="*")
+    if (!ignore.strand)
+        which <- GRanges(sl, IRanges(1, seqlengths(si)[sl]), strand=st)
+    if (ignore.strand)
+        which <- GRanges(sl, IRanges(1, seqlengths(si)[sl]), strand="*")
+    
     if (!is.null(seqlev)) {
         ## make sure seqlev is a subset of seqlevels(which)
         which <- keepSeqlevels(which, value=seqlev)
     }
     
     list_which <- split(which, seq_along(which))
-
-    #' now only support single-Ended reads
-    ignore.strand <- TRUE
-    min_anchor <- 1
-    ## min_junction_count <- 1
-    paired_end <- FALSE
 
     for (bam_file in bamFiles) {
         if (verbose) message(bam_file)
@@ -45,9 +42,11 @@ makeJunctionBed <- function(bamFiles, cores=1, seqlev=NULL,
             
             flag <- scanBamFlag(isSecondaryAlignment = FALSE)
             param <- ScanBamParam(flag = flag, tag = "XS", which = x)
-            gap <- GenomicAlignments::readGAlignments(file = bam_file,
-                                                  param = param)
-        
+            gap <- GenomicAlignments::readGAlignmentPairs(file = bam_file,
+                                                          param = param)
+            if (!ignore.strand) 
+                gap <- gap[strand(gap) == as.character(strand(x))]
+            
             frag_exonic <- reduce(ranges(grglist(gap, drop.D.ranges = TRUE)))
             frag_intron <- ranges(GenomicAlignments::junctions(gap))
         
@@ -60,15 +59,22 @@ makeJunctionBed <- function(bamFiles, cores=1, seqlev=NULL,
             mcols(junctions) <- DataFrame(score=score)
             junctions <-
                 junctions[which(mcols(junctions)$score >= min_junction_count)]
+            ## debug
+            print(junctions)
             if (identical(0L, length(junctions))) {return()}
 
             ## prepare for the track
-            junctionsTrack <- GRangesForUCSCGenome(
-                genome=genome,
-                chrom=as.character(seqnames(x)),
-                ranges=junctions,
-                strand=strand(x))
-        
+            #junctionsTrack <- GRangesForUCSCGenome(
+            #    genome=genome,
+            #    chrom=as.character(seqnames(x)),
+            #    ranges=junctions,
+            #    strand=strand(x))
+
+            junctionsTrack <- GRanges(seqnames=seqnames(x),
+                                      ranges=junctions,
+                                      strand=strand(x))
+            genome(junctionsTrack) <- genome
+            
             block_starts <- rep(1, length(junctionsTrack)*2)
             block_starts[seq.int(2, length(block_starts), by=2)] <-
                 width(junctionsTrack)-1
@@ -92,12 +98,18 @@ makeJunctionBed <- function(bamFiles, cores=1, seqlev=NULL,
         bed_file <- paste0(sample_name, ".bed")
 
         junctionsTrack <- do.call(c, list_junctionsTrack)
+        if (!is.null(seqlev)) 
+            junctionsTrack <- keepSeqlevels(junctionsTrack, value=seqlev)
+        ##strand(junctionsTrack) <- "+", testing
         
         ## don't include trackLine because bigBed does not neet it
-        if (verbose) message("Exporting ", file.path(outdir, bed_file))
-        export(junctionsTrack, con=file.path(outdir, bed_file))
+        if (!is.null(junctionsTrack)) {
+            if (verbose) message("Exporting ", file.path(outdir, bed_file))
+            export(junctionsTrack,
+                   con=file.path(outdir, bed_file))
+        }
     }
-    file.path(outdir, bed_file)
+    junctionsTrack
 }
 
 ## move to somewhere else

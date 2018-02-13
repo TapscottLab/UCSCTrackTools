@@ -1,10 +1,10 @@
 Package: UCSCTrackTools
-Version: 2.2.0
+Version: 2.2.3
 Title: Tools to convert BAM files to BigWig and to create session track line
 Author: Chao-Jen Wong
 Maintainer: Chao-Jen Wong <cwon2@fhcrc.org>
-Depends:  R (>= 3.3), GenomicRanges
-Imports: RColorBrewer, biovizBase, GenomicAlignments, Rsamtools, BiocParallel, rtracklayer, GenomeInfoDb, SGSeq
+Depends:  R (>= 3.3), GenomicRanges, GenomeInfoDb
+Imports: RColorBrewer, biovizBase, GenomicAlignments, Rsamtools, BiocParallel, rtracklayer, SGSeq
 Description: Tools to convert BAM files to bigWig files using coverage on genome
   positions. The session track line append the track lines for each bigWig file.
   Note that the preferred destinations for the coverage bigWig and junction bigBed files are

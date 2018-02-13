@@ -47,8 +47,8 @@ a file name of the chromozon size file pertained to the genome. Those files can 
 found in "/fh/fast/tapscott_s/CompBio/hg38, /mm10, and /canFam3". 
 }
   \item{trackName}{
-a character string specifying the name of the track to be
-          appeared on UCSC genome browser.
+a character string specifying the name of the track to be appeared on UCSC genome
+browser. 
 }
 
 }
@@ -58,7 +58,7 @@ and createHubTrackLine.junc.bed(). See example below.
 }
 
 \author{
-Chao-Jen Wong <cwon2@fhcrc.org}
+Chao-Jen Wong <cwon2@fhcrc.org>
 }
 
 

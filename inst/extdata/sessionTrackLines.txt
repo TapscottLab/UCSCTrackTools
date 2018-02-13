@@ -1,0 +1,24 @@
+track name=MB_390nM903A description=MB_390nM903A visibility=full color=255,0,255 type=bigWig bigDataUrl=http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig/hg19_MB135_RNASeq/MB_390nM903A.bw
+
+track name=MB_780nM449A description=MB_780nM449A visibility=full color=255,0,0 type=bigWig bigDataUrl=http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig/hg19_MB135_RNASeq/MB_780nM449A.bw
+
+track name=MB_DMSOfor449A description=MB_DMSOfor449A visibility=full color=0,255,255 type=bigWig bigDataUrl=http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig/hg19_MB135_RNASeq/MB_DMSOfor449A.bw
+
+track name=MB_DMSOfor903A description=MB_DMSOfor903A visibility=full color=255,0,255 type=bigWig bigDataUrl=http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig/hg19_MB135_RNASeq/MB_DMSOfor903A.bw
+
+track name=MT_3120nM449A description=MT_3120nM449A visibility=full color=255,0,0 type=bigWig bigDataUrl=http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig/hg19_MB135_RNASeq/MT_3120nM449A.bw
+
+track name=MT_390nM903A description=MT_390nM903A visibility=full color=0,255,255 type=bigWig bigDataUrl=http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig/hg19_MB135_RNASeq/MT_390nM903A.bw
+
+track name=MT_780nM449A description=MT_780nM449A visibility=full color=255,0,255 type=bigWig bigDataUrl=http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig/hg19_MB135_RNASeq/MT_780nM449A.bw
+
+track name=MT_780nM877A description=MT_780nM877A visibility=full color=255,0,0 type=bigWig bigDataUrl=http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig/hg19_MB135_RNASeq/MT_780nM877A.bw
+
+track name=MT_780nM903A description=MT_780nM903A visibility=full color=0,255,255 type=bigWig bigDataUrl=http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig/hg19_MB135_RNASeq/MT_780nM903A.bw
+
+track name=MT_DMSO description=MT_DMSO visibility=full color=255,0,255 type=bigWig bigDataUrl=http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig/hg19_MB135_RNASeq/MT_DMSO.bw
+
+track name=MT_DMSOfor449A description=MT_DMSOfor449A visibility=full color=255,0,0 type=bigWig bigDataUrl=http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig/hg19_MB135_RNASeq/MT_DMSOfor449A.bw
+
+track name=MT_DMSOfor903A description=MT_DMSOfor903A visibility=full color=0,255,255 type=bigWig bigDataUrl=http://tapscott:FSHD@xfiles.fhcrc.org:7007/ucsc/tapscott/bigWig/hg19_MB135_RNASeq/MT_DMSOfor903A.bw
+

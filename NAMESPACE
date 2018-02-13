@@ -1,6 +1,5 @@
 importFrom(GenomicAlignments, readGAlignments)
 
-importFrom(GenomeInfoDb, "seqlevels", "seqlevelsStyle<-")
 
 importFrom(rtracklayer, "export")
 importFrom(rtracklayer, "GRangesForUCSCGenome")
@@ -17,4 +16,6 @@ export("convertBamToBigWig",
        "createHubTrackLine.junc.bed",
        "makeJunctionBed",
        "createHubTrackLine.BW",
+       "convertBedToBigBed",
+       "makeJunctionTracksWrapper",
        "makeCoverageTracksWrapper")
