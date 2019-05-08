@@ -1,5 +1,5 @@
 Package: UCSCTrackTools
-Version: 2.2.3
+Version: 3.5.1
 Title: Tools to convert BAM files to BigWig and to create session track line
 Author: Chao-Jen Wong
 Maintainer: Chao-Jen Wong <cwon2@fhcrc.org>
